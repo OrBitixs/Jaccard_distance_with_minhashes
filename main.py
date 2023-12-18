@@ -100,10 +100,10 @@ def jaccard_char(char_matrix: list[list[int]], column_num: int):
             equal = 0
             filled = 0
             for row in range(char_matrix.__len__()):
-                if char_matrix[row][i] == char_matrix[row][j]:
-                    equal += 1
                 if char_matrix[row][i] == 1 or char_matrix[row][j] == 1:
                     filled += 1
+                    if char_matrix[row][i] == char_matrix[row][j]:
+                        equal += 1
 
             similarity_matrix[i].append(equal/filled)
 
