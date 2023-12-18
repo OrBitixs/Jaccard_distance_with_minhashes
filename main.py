@@ -1,22 +1,22 @@
 import argparse
 import random
 
+
 def create_char_matrix(num_doc: int, num_elemen: int, num_hash: int) -> list[list[int]]:
     matrix = []
     for el in range(num_elemen):
-        matrix.append([random.randint(0,1) for i in range(num_doc)])
+        matrix.append([random.randint(0, 1) for i in range(num_doc)])
 
     hash_coef = get_prime_numbers(11, num_hash)
     for el in range(num_elemen):
         for h in range(num_hash):
-            new_hash = (((el+h))*hash_coef[h])%num_elemen
-            # print(new_hash, end="\t")
+            new_hash = ((el+h)*hash_coef[h]) % num_elemen
             matrix[el].append(new_hash)
-        # print()
 
     return matrix
 
-def pretty_matrix_print(label:str, row_labels: list[str], column_labels: list[str], matrix: list[list]) -> int:
+
+def pretty_matrix_print(label: str, row_labels: list[str], column_labels: list[str], matrix: list[list]) -> int:
     print("\n{}".format(label))
 
     if matrix.__len__() != row_labels.__len__() or matrix[0].__len__() != column_labels.__len__():
@@ -39,6 +39,7 @@ def pretty_matrix_print(label:str, row_labels: list[str], column_labels: list[st
 
     return 0
 
+
 def get_prime_numbers(start: int, number: int) -> list[int]:
     prime_list = []
     current = start
@@ -48,15 +49,17 @@ def get_prime_numbers(start: int, number: int) -> list[int]:
                 break
         else:
             prime_list.append(current)
-        current+=1
+        current += 1
 
     return prime_list
 
-def create_sig_matrix(num_doc: int, num_hash: int, max: int) -> list[list[int]]:
+
+def create_sig_matrix(num_doc: int, num_hash: int, infinity: int) -> list[list[int]]:
     matrix = []
     for _ in range(num_hash):
-        matrix.append([max for _ in range(num_doc)])
+        matrix.append([infinity for _ in range(num_doc)])
     return matrix
+
 
 def update_sig_matrix(sig_matrix: list[list[int]], char_matrix: list[list[int]]) -> list[list[int]]:
     for it_char_row_id in range(char_matrix.__len__()):
@@ -66,6 +69,7 @@ def update_sig_matrix(sig_matrix: list[list[int]], char_matrix: list[list[int]])
                     sig_matrix[sig_row_id][char_column_id] = min(sig_matrix[sig_row_id][char_column_id], char_matrix[it_char_row_id][args.documents+sig_row_id])
 
     return sig_matrix
+
 
 def jaccard_sig(sig_matrix: list[list[int]]) -> list[list[int]]:
     similarity_matrix = []
@@ -90,6 +94,7 @@ def jaccard_sig(sig_matrix: list[list[int]]) -> list[list[int]]:
 
     return similarity_matrix
 
+
 def jaccard_char(char_matrix: list[list[int]], column_num: int):
     similarity_matrix = []
     for i in range(column_num):
@@ -110,6 +115,7 @@ def jaccard_char(char_matrix: list[list[int]], column_num: int):
     similarity_matrix.pop()
 
     return similarity_matrix
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Calculate distance between documents")
